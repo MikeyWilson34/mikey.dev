@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects | Mikey SDET Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <canvas id="matrix-rain"></canvas>
+
+  <nav>
+    <a class="nav-logo" href="index.html">mikey.dev</a>
+    <ul class="nav-links">
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#skills">Skills</a></li>
+      <li><a href="index.html#experience">Experience</a></li>
+      <li><a href="projects.html" class="active">Projects</a></li>
+      <li><a href="index.html#resume">Resume</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header fade-in">
+    <div class="section-label">// projects</div>
+    <h1>Things I've <em>Built</em></h1>
+    <p>
+      A collection of automation frameworks, tooling, and systems I've designed — built to make software shipping faster, safer, and more reliable.
+    </p>
+  </div>
+
+  <!-- FEATURED PROJECTS -->
+  <section style="border-top: 1px solid var(--border);">
+    <div class="projects-grid">
+
+      <!-- Featured: Mobile Automation Framework -->
+      <div class="project-card featured fade-in">
+        <div class="project-body">
+          <div class="project-icon">📱</div>
+          <div class="project-title" style="font-size:1.15rem; margin-bottom:0.75rem;">Mobile Automation Framework</div>
+          <p class="project-desc">
+            Built a Python + Appium test framework from the ground up for iOS and Android. Implements the Page Object Model pattern for maintainability and integrates into the CI pipeline to run on every mobile release candidate. The framework reduced manual regression time significantly and serves as the team's primary quality gate for every release.
+          </p>
+          <div class="project-footer">
+            <span class="tag tag-accent">Python</span>
+            <span class="tag tag-accent">Appium</span>
+            <span class="tag">POM Pattern</span>
+            <span class="tag">CI/CD</span>
+            <span class="tag">iOS</span>
+            <span class="tag">Android</span>
+          </div>
+        </div>
+        <div class="project-highlights">
+          <div class="highlight-item">
+            <span class="highlight-label">Type</span>
+            <span class="highlight-value">Mobile Test Automation</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-label">Stack</span>
+            <span class="highlight-value">Python, Appium, pytest</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-label">Pattern</span>
+            <span class="highlight-value">Page Object Model</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-label">Impact</span>
+            <span class="highlight-value">Primary QA gate for every mobile release cycle</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Robot Framework Test Suite -->
+      <div class="project-card fade-in">
+        <div class="project-icon">🤖</div>
+        <div class="project-title">Robot Framework Test Suite</div>
+        <p class="project-desc">
+          Designed a keyword-driven regression test suite using Robot Framework. Structured for readability by non-engineers, enabling QA and product to both contribute to test coverage with minimal friction.
+        </p>
+        <div class="project-footer">
+          <span class="tag tag-accent">Robot Framework</span>
+          <span class="tag tag-accent">Python</span>
+          <span class="tag">Keyword-Driven</span>
+          <span class="tag">Regression</span>
+        </div>
+      </div>
+
+      <!-- Cypress Web Test Suite -->
+      <div class="project-card fade-in">
+        <div class="project-icon">🌲</div>
+        <div class="project-title">Cypress Web Test Suite</div>
+        <p class="project-desc">
+          Built a Cypress end-to-end test framework expanding test coverage to the web layer. Focused on reliable selectors, network request stubbing, and fast feedback loops during development.
+        </p>
+        <div class="project-footer">
+          <span class="tag tag-accent">Cypress</span>
+          <span class="tag tag-accent">JavaScript</span>
+          <span class="tag">E2E Testing</span>
+          <span class="tag">Web Automation</span>
+        </div>
+      </div>
+
+      <!-- Mobile Release Coordination System -->
+      <div class="project-card fade-in">
+        <div class="project-icon">📋</div>
+        <div class="project-title">Mobile Release Coordination System</div>
+        <p class="project-desc">
+          Designed and lead a repeatable monthly release process for mobile apps — from test plan creation and sign-off coordination to deployment checklists — reducing release-day issues significantly.
+        </p>
+        <div class="project-footer">
+          <span class="tag">Process Design</span>
+          <span class="tag">Release Management</span>
+          <span class="tag">Mobile QA</span>
+          <span class="tag">Leadership</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section>
+    <div class="resume-section fade-in">
+      <div class="resume-text">
+        <h3>Want to see more?</h3>
+        <p style="margin-top:0.5rem;">
+          These are highlights from my professional work. If you'd like to discuss a specific project or see code samples, feel free to reach out.
+        </p>
+      </div>
+      <div class="resume-actions">
+        <a href="mailto:your@email.com" class="btn btn-primary">✉️ Get In Touch</a>
+        <a href="index.html#resume" class="btn btn-outline">⬇️ Download Resume</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Built by Mikey &nbsp;·&nbsp; SDET &amp; QA Engineer &nbsp;·&nbsp; Utah</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
