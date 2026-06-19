@@ -1,4 +1,3 @@
-import MatrixRain from '../components/MatrixRain'
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
 import FadeIn from '../components/FadeIn'
@@ -74,7 +73,6 @@ export default function Projects() {
 
   return (
     <>
-      <MatrixRain />
       <Nav />
 
       <FadeIn className="page-header">
