@@ -150,7 +150,7 @@ export default function Projects() {
               </p>
             </div>
             <div className="resume-actions">
-              <a href="mailto:your@email.com" className="btn btn-primary">✉️ Get In Touch</a>
+              <a href="mailto:mikeawilson34@gmail.com" className="btn btn-primary">✉️ Get In Touch</a>
               <a href="/#resume" className="btn btn-outline">⬇️ Download Resume</a>
             </div>
           </div>

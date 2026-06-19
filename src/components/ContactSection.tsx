@@ -13,13 +13,13 @@ export default function ContactSection() {
           </p>
         </div>
         <div className="resume-actions">
-          <a href="mailto:your@email.com" className="btn btn-primary">
+          <a href="mailto:mikeawilson34@gmail.com" className="btn btn-primary">
             ✉️ Send an Email
           </a>
           <a href="#" className="btn btn-outline" onClick={() => alert('Add your resume PDF link here!')}>
             ⬇️ Download Resume
           </a>
-          <a href="https://linkedin.com/in/yourprofile" className="btn btn-outline" target="_blank" rel="noreferrer">
+          <a href="https://www.linkedin.com/in/michael-wilson-213788a7/" className="btn btn-outline" target="_blank" rel="noreferrer">
             💼 LinkedIn
           </a>
         </div>
