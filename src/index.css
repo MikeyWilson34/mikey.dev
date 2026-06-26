@@ -75,6 +75,20 @@ nav {
   color: var(--text);
 }
 
+.nav-resume {
+  color: var(--accent) !important;
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  border-radius: 6px;
+  padding: 0.3rem 0.75rem;
+  transition: background 0.2s, border-color 0.2s !important;
+}
+
+.nav-resume:hover {
+  background: var(--accent-light);
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+}
+
 /* HERO */
 .hero {
   max-width: 900px;
@@ -182,6 +196,20 @@ nav {
   border-color: var(--text-muted);
   color: var(--text);
   transform: translateY(-1px);
+}
+
+.btn-resume {
+  background: var(--accent-2-light);
+  color: var(--accent-2);
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  font-weight: 600;
+}
+
+.btn-resume:hover {
+  background: rgba(139, 92, 246, 0.18);
+  border-color: var(--accent-2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.25);
 }
 
 /* HERO STATS */
