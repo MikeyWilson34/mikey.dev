@@ -4,13 +4,12 @@ export default function Hero() {
       <div>
         <div className="hero-badge">Open to opportunities</div>
         <h1>
-          Senior SDET &amp;<br />
-          <em>QA Engineer</em>
+          Senior QA Engineer
         </h1>
         <p className="hero-sub">
-          6+ years building test automation frameworks and leading mobile QA initiatives.
-          I bridge the gap between quality engineering and software development — writing
-          the code that keeps code reliable.
+          6+ years building scalable test automation and leading release coordination.
+          Expert in Python-based frameworks, mobile QA, and Agile development —
+          delivering high-quality software through strategic testing.
         </p>
         <div className="hero-actions">
           <a href="#experience" className="btn btn-primary">View My Work</a>

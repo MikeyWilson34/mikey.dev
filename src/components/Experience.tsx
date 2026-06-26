@@ -13,46 +13,58 @@ const jobs: Job[] = [
   {
     title: 'QA Engineer',
     company: 'Lightspeed DMS',
-    date: '2019 – Present',
+    date: 'Jan 2023 – Present',
     current: true,
     description:
-      'Lead monthly mobile release coordination across iOS and Android platforms. Designed and maintain the team\'s core test automation framework using Python and Appium. Built Robot Framework test suites that serve as the primary regression safety net for each release cycle. Recently expanded the framework to include Cypress for web coverage.',
+      'Built a mobile test automation framework using Python, Appium, and Robot Framework. Lead QA for mobile project — wrote and maintained 400+ test cases and coordinated monthly regression tests on Android and iOS. Coordinated monthly releases managing cross-team readiness and stakeholder communication. Partnered with developers in sprint planning to define test strategies. Coordinated app Beta testing program including tester onboarding docs and feedback triage. API endpoint testing via Postman and data integrity validation using PostgreSQL.',
     tags: [
-      { label: 'Python', accent: true }, { label: 'Appium', accent: true },
-      { label: 'Robot Framework', accent: true }, { label: 'Cypress', accent: true },
-      { label: 'Mobile QA' }, { label: 'Release Management' },
+      { label: 'Python',  }, { label: 'Appium',  },
+      { label: 'Robot Framework',  }, { label: 'Postman',  },
+      { label: 'Mobile QA' }, { label: 'Release Management' }, { label: 'PostgreSQL' },
     ],
   },
   {
-    title: 'QA Team Lead',
-    company: 'Domega',
-    date: 'Prior',
-    description:
-      'Led a QA team, overseeing test strategy, team processes, and quality standards. Coordinated cross-functional testing efforts and mentored junior QA engineers on best practices for test design and automation.',
-    tags: [
-      { label: 'Team Leadership' }, { label: 'Test Strategy' },
-      { label: 'Mentoring' }, { label: 'Process Design' },
-    ],
-  },
-  {
-    title: 'QA Engineer',
-    company: 'The VOID / Intellivision Entertainment',
-    date: 'Prior',
-    description:
-      'Performed functional, regression, and exploratory testing on gaming and entertainment software. Contributed to test planning and defect management in fast-paced product environments.',
-    tags: [
-      { label: 'Functional Testing' }, { label: 'Regression Testing' },
-      { label: 'Defect Management' }, { label: 'Gaming QA' },
-    ],
-  },
-  {
-    title: 'QA Engineer',
+    title: 'Senior Product Specialist',
     company: 'Via Customers',
-    date: 'Prior',
+    date: 'Jan 2022 – Dec 2022',
     description:
-      'Executed test plans, documented defects, and collaborated with development teams on bug resolution in an agile environment.',
+      'Owned bug triage and prioritization in Jira. Bridged communication between Engineering and Support/Sales by providing product knowledge and triaging new product issues. Created data reports for Support, Sales, and Customers using PostgreSQL. Managed customer complaints to identify the biggest pain points in the product.',
     tags: [
-      { label: 'Agile QA' }, { label: 'Test Planning' }, { label: 'Defect Tracking' },
+      { label: 'Jira',  }, { label: 'PostgreSQL',  },
+      { label: 'Bug Triage' }, { label: 'Product Analysis' },
+    ],
+  },
+  {
+    title: 'QA Engineer',
+    company: 'Intellivision Entertainment',
+    date: 'Oct 2020 – Dec 2021',
+    description:
+      'Created and maintained test cases for 16 game titles, handling several game and console platforms simultaneously. Coordinated with developers across different studios providing testing reports and gameplay feedback. Coordinated Play Test Demos and delivered weekly QA status reports to the CEO via Jira highlighting risk, trends, and release readiness.',
+    tags: [
+      { label: 'Jira',  }, { label: 'Game QA',  },
+      { label: 'Test Cases' }, { label: 'Regression Testing' }, { label: 'Reporting' },
+    ],
+  },
+  {
+    title: 'QA Automation Engineer',
+    company: 'The VOID',
+    date: 'Jun 2019 – Aug 2020',
+    description:
+      'Built automated testing for the company website using Selenium and Python. Handled testing of cutting-edge VR technology and equipment. Created and maintained 200+ test cases covering website and user flow through VR experiences. Held weekly coordination meetings with product and development teams to improve test coverage.',
+    tags: [
+      { label: 'Selenium',  }, { label: 'Python',  },
+      { label: 'VR Testing' }, { label: 'Test Automation' },
+    ],
+  },
+  {
+    title: 'Data Collection Programmer | Team Lead',
+    company: 'Domega',
+    date: 'Dec 2014 – Jun 2019',
+    description:
+      'Built large-scale web scraping and data automation using Python and Selenium. Improved team efficiency by adding a Google scrape script and website template recognition — adding hundreds of new sites and fixing broken scripts in bulk. Led team training in Python scripting and best practices.',
+    tags: [
+      { label: 'Python',  }, { label: 'Selenium',  },
+      { label: 'Web Scraping' }, { label: 'Team Lead' }, { label: 'Data Automation' },
     ],
   },
 ]
