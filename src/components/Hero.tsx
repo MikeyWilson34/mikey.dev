@@ -4,7 +4,11 @@ export default function Hero() {
       <div>
         <div className="hero-badge">Open to opportunities</div>
         <h1>
+          Michael Wilson <br>
+          </br>
+          <em>
           Senior QA Engineer
+          </em>
         </h1>
         <p className="hero-sub">
           6+ years building scalable test automation and leading release coordination.
