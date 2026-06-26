@@ -22,6 +22,16 @@
 
 html { scroll-behavior: smooth; }
 
+#matrix-rain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
 body {
   font-family: var(--font-sans);
   background: var(--bg);
@@ -548,6 +558,56 @@ section {
   font-size: 0.875rem;
   color: var(--text-muted);
   line-height: 1.5;
+}
+
+/* PROJECTS PAGE — matrix green theme */
+.projects-page {
+  --accent: #00cc33;
+  --accent-light: rgba(0, 204, 51, 0.12);
+  --accent-2: #00ff41;
+  --accent-2-light: rgba(0, 255, 65, 0.08);
+  --border: rgba(0, 204, 51, 0.25);
+  --card: rgba(5, 18, 5, 0.88);
+  --shadow: 0 1px 3px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(0, 204, 51, 0.15);
+}
+
+.projects-page .project-card:hover {
+  border-color: rgba(0, 204, 51, 0.5);
+  box-shadow: 0 0 20px rgba(0, 204, 51, 0.15), var(--shadow-lg);
+}
+
+.projects-page .project-card.featured .project-highlights {
+  border-left-color: rgba(0, 204, 51, 0.3);
+}
+
+.projects-page .tag-accent {
+  background: rgba(0, 204, 51, 0.15);
+  color: #00cc33;
+  border-color: rgba(0, 204, 51, 0.3);
+}
+
+.projects-page .section-label { color: #00cc33; }
+
+.projects-page h1 em { color: #00ff41; }
+
+.projects-page .nav-resume {
+  border-color: #00cc33;
+  color: #00cc33;
+}
+
+.projects-page .nav-resume:hover {
+  background: rgba(0, 204, 51, 0.12);
+}
+
+.projects-page .btn-primary {
+  background: #00cc33;
+  box-shadow: 0 0 16px rgba(0, 204, 51, 0.3);
+}
+
+.projects-page .btn-primary:hover {
+  background: #00ff41;
+  box-shadow: 0 0 24px rgba(0, 255, 65, 0.4);
 }
 
 /* RESUME / CONTACT */

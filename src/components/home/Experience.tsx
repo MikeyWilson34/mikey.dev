@@ -1,4 +1,4 @@
-import FadeIn from './FadeIn'
+import FadeIn from '../FadeIn'
 
 interface Job {
   title: string
