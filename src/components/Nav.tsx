@@ -24,7 +24,7 @@ export default function Nav() {
             Projects
           </NavLink>
         </li>
-        <li><a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="nav-resume">Resume</a></li>
+        <li><a href="/michael_wilson_resume.pdf" download className="nav-resume">Resume</a></li>
       </ul>
     </nav>
   )

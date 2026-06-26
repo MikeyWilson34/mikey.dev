@@ -16,7 +16,7 @@ export default function ContactSection() {
           <a href="mailto:mikeawilson34@gmail.com" className="btn btn-primary">
             ✉️ Send an Email
           </a>
-          <a href="#" className="btn btn-outline" onClick={() => alert('Add your resume PDF link here!')}>
+          <a href="/michael_wilson_resume.pdf" download className="btn btn-outline">
             ⬇️ Download Resume
           </a>
           <a href="https://www.linkedin.com/in/michael-wilson-213788a7/" className="btn btn-outline" target="_blank" rel="noreferrer">
