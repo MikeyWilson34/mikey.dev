@@ -19,7 +19,7 @@ export default defineConfig({
     : [['list'], ['html', { open: 'never' }]],
   use: {
     baseURL,
-    // MatrixRain and FadeIn are decorative; tests never assert on them.
+    // FadeIn is decorative; tests never assert on it.
     reducedMotion: 'reduce',
     trace: 'on-first-retry',
   },

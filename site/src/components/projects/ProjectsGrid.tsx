@@ -70,7 +70,7 @@ export default function ProjectsGrid() {
   const rest = projects.filter((p) => !p.featured)
 
   return (
-    <section style={{ borderTop: '1px solid var(--border)' }}>
+    <section>
       <div className="projects-grid">
 
         <FadeIn delay={0}>
