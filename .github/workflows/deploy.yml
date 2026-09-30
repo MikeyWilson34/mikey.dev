@@ -1,0 +1,151 @@
+# Pipeline Run for main.
+# Runs the Playwright suite one last time against a local build (the final
+# Deploy Gate), deploys that exact build to production, then smoke-tests the
+# live site. See docs/adr/0002-github-actions-deploys.md.
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+# Least privilege: jobs can only read the repo.
+permissions:
+  contents: read
+
+# Queue production deploys one at a time; never cancel one halfway through.
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: 22
+  # Pinned major so a new CLI release can't silently change deploy behaviour.
+  NETLIFY_CLI: netlify-cli@27
+
+# TODO(step 3): Nightly Check workflow and Run Records on the data branch (ADR 0003).
+
+jobs:
+  gate:
+    name: gate
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - run: npm ci
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium webkit
+
+      # No BASE_URL: Playwright serves the local build and tests it.
+      - name: Run Playwright (final Deploy Gate)
+        run: npm run test:e2e
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-gate
+          path: site/playwright-report
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-gate
+          path: site/test-results
+          if-no-files-found: ignore
+          retention-days: 14
+
+      # Only reached if every test passed.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site-dist
+          path: site/dist
+          retention-days: 7
+
+  deploy-production:
+    name: deploy-production
+    needs: gate
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout only so the CLI can read netlify.toml (headers/redirects).
+      - uses: actions/checkout@v4
+
+      # netlify-cli@27 needs Node >= 22.13; don't rely on the runner's default.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-dist
+          path: site/dist
+
+      - name: Deploy to Netlify (production)
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        # --no-build: upload the tested folder as-is; don't let the CLI rebuild.
+        run: |
+          result=$(npx --yes "$NETLIFY_CLI" deploy \
+            --prod \
+            --dir="$GITHUB_WORKSPACE/site/dist" \
+            --no-build \
+            --message="main @ ${GITHUB_SHA::7}" \
+            --json)
+          echo "$result" | jq '{deploy_id, url, deploy_url}'
+
+  post-deploy-smoke:
+    name: post-deploy-smoke
+    needs: deploy-production
+    runs-on: ubuntu-latest
+    # Skipped until the repo variable PROD_URL is set (see docs/setup-step1.md).
+    if: vars.PROD_URL != ''
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium webkit
+
+      - name: Run Playwright against production
+        env:
+          BASE_URL: ${{ vars.PROD_URL }}
+        run: npm run test:e2e
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-smoke
+          path: site/playwright-report
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-smoke
+          path: site/test-results
+          if-no-files-found: ignore
+          retention-days: 14

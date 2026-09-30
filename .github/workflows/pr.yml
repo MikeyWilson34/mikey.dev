@@ -1,0 +1,191 @@
+# Pipeline Run for pull requests.
+# Builds the site, publishes a Preview Deploy on Netlify, then runs the
+# Playwright suite against it. The `e2e` job is the Deploy Gate check.
+# See docs/adr/0002-github-actions-deploys.md.
+
+name: PR
+
+on:
+  pull_request:
+    branches: [main]
+
+# Least privilege: jobs can only read the repo unless they ask for more.
+permissions:
+  contents: read
+
+# A new push to the same PR cancels the older, now-outdated Pipeline Run.
+concurrency:
+  group: pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: 22
+  # Pinned major so a new CLI release can't silently change deploy behaviour.
+  NETLIFY_CLI: netlify-cli@27
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - run: npm ci
+      - run: npm run build
+
+      # Hand the built site to later jobs so we deploy exactly what we built.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site-dist
+          path: site/dist
+          retention-days: 7
+
+  preview-deploy:
+    name: preview-deploy
+    needs: build
+    runs-on: ubuntu-latest
+    # PRs from forks don't get repo secrets, so they can't deploy. They skip
+    # this job and `e2e` tests a local build instead.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    outputs:
+      url: ${{ steps.deploy.outputs.url }}
+    steps:
+      # Checkout only so the CLI can read netlify.toml (headers/redirects).
+      - uses: actions/checkout@v4
+
+      # netlify-cli@27 needs Node >= 22.13; don't rely on the runner's default.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-dist
+          path: site/dist
+
+      - name: Deploy to Netlify (Preview Deploy)
+        id: deploy
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        # --no-build: upload the prebuilt folder; don't let the CLI rebuild.
+        # --alias gives each PR a stable URL: https://pr-<N>--<site>.netlify.app
+        run: |
+          result=$(npx --yes "$NETLIFY_CLI" deploy \
+            --dir="$GITHUB_WORKSPACE/site/dist" \
+            --no-build \
+            --alias="pr-${{ github.event.pull_request.number }}" \
+            --message="PR #${{ github.event.pull_request.number }} @ ${GITHUB_SHA::7}" \
+            --json)
+          url=$(echo "$result" | jq -r '.deploy_url')
+          if [ -z "$url" ] || [ "$url" = "null" ]; then
+            echo "::error::Netlify did not return a deploy URL"; echo "$result"; exit 1
+          fi
+          echo "Preview Deploy: $url"
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+  preview-comment:
+    name: preview-comment
+    needs: preview-deploy
+    runs-on: ubuntu-latest
+    # The only job allowed to write to the PR.
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Post or update the Preview Deploy comment
+        uses: actions/github-script@v7
+        env:
+          PREVIEW_URL: ${{ needs.preview-deploy.outputs.url }}
+        with:
+          script: |
+            // Hidden marker lets us find and edit our own comment instead of
+            // adding a new one on every push.
+            const marker = '<!-- preview-deploy-comment -->';
+            const body = [
+              marker,
+              `**Preview Deploy:** ${process.env.PREVIEW_URL}`,
+              '',
+              `Built from ${context.sha.slice(0, 7)}. Playwright results are in the \`e2e\` check.`,
+            ].join('\n');
+
+            const { owner, repo } = context.repo;
+            const issue_number = context.issue.number;
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner, repo, issue_number,
+            });
+            const existing = comments.find(c => c.body?.includes(marker));
+
+            if (existing) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body });
+            }
+
+  e2e:
+    name: e2e
+    needs: [build, preview-deploy]
+    runs-on: ubuntu-latest
+    # Run even when preview-deploy was skipped (fork PRs). A skipped required
+    # check counts as passing, so this job must run and fail loudly instead.
+    if: ${{ !cancelled() }}
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - name: Stop if an earlier job failed
+        if: needs.build.result != 'success' || needs.preview-deploy.result == 'failure'
+        run: |
+          echo "::error::build=${{ needs.build.result }}, preview-deploy=${{ needs.preview-deploy.result }}"
+          exit 1
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium webkit
+
+      # With BASE_URL, Playwright tests the Preview Deploy. Without it (fork
+      # PRs), Playwright builds and serves the site locally.
+      - name: Run Playwright
+        env:
+          PREVIEW_URL: ${{ needs.preview-deploy.outputs.url }}
+        run: |
+          if [ -n "$PREVIEW_URL" ]; then
+            export BASE_URL="$PREVIEW_URL"
+            echo "Testing Preview Deploy: $BASE_URL"
+          else
+            echo "No Preview Deploy (fork PR); testing a local build."
+          fi
+          npm run test:e2e
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: site/playwright-report
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: site/test-results
+          if-no-files-found: ignore
+          retention-days: 14
