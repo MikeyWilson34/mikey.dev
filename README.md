@@ -1,10 +1,17 @@
 # mikey.dev
 Personal website to show my skillset and interests
 
+## Layout
+
+- `site/` — the website (Vite + React + TypeScript)
+- `CONTEXT.md` — project glossary
+- `docs/adr/` — decision records
+
 ## Development
 
 Install dependencies:
 ```
+cd site
 npm install
 ```
 
