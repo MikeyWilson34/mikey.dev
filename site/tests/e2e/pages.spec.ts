@@ -28,9 +28,9 @@ test('nav links move between Home and Projects', async ({ page }) => {
   await expect(mainHeading).toHaveText(/Michael Wilson/)
 })
 
-// Expected to FAIL against Netlify until an SPA redirect rule (/* -> /index.html 200) exists:
-// Netlify has no /projects file, so a direct load or refresh returns its 404 page.
-// It passes locally because `vite preview` falls back to index.html for unknown paths.
+// Netlify has no /projects file, so this relies on the SPA rule in public/_redirects
+// (/* -> /index.html 200); without it a direct load or refresh returns Netlify's 404.
+// Locally it always passes because `vite preview` falls back to index.html itself.
 test('direct load and hard refresh of /projects serve the Projects page', async ({ page }) => {
   const firstLoad = await page.goto('/projects')
   expect(firstLoad?.status()).toBeLessThan(400)
