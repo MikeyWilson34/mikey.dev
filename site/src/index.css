@@ -1,34 +1,58 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/*
+ * Palette — near-black ground, blood crimson, burnished gold, ivory text.
+ * Contrast notes (vs --ink): --ivory 15.4:1, --ivory-muted 8.9:1, --gold 8.1:1.
+ * Crimson is for surfaces, rules and marks only; it is too dark for small
+ * text on black. Ivory on --crimson is 6.9:1, on --crimson-deep 11:1.
+ */
 :root {
-  --bg: #0f172a;
-  --surface: #1a2540;
-  --card: #243352;
-  --border: #2e4068;
-  --text: #f1f5f9;
-  --text-muted: #94a3b8;
-  --accent: #6366f1;
-  /* Lighter accent for text on dark backgrounds (WCAG AA contrast) */
-  --accent-text: #939afa;
-  --accent-light: rgba(99, 102, 241, 0.12);
-  --accent-2: #8b5cf6;
-  --accent-2-light: rgba(139, 92, 246, 0.1);
-  --tag-bg: #0f172a;
-  --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(99,102,241,0.1);
-  --radius: 12px;
-  --font-display: 'DM Serif Display', serif;
-  --font-sans: 'DM Sans', sans-serif;
-  --font-mono: 'DM Mono', monospace;
+  --ink: #0c0a09;
+  --ink-raised: #15110f;
+  --ink-panel: #1b1613;
+  --crimson: #8f1d21;
+  --crimson-deep: #5a1014;
+  --crimson-glow: rgba(143, 29, 33, 0.22);
+  --gold: #c9a24b;
+  --gold-bright: #e2c27a;
+  --gold-line: #7d6431;
+  --gold-faint: rgba(201, 162, 75, 0.14);
+  --ivory: #ede4d1;
+  --ivory-muted: #b9ad97;
+
+  --font-display: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+  --font-body: 'EB Garamond', Garamond, 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+
+  --measure: 1080px;
+  --cut: 12px;
+
+  /* Legacy names, mapped onto the new palette until components are restyled */
+  --bg: var(--ink);
+  --surface: var(--ink-raised);
+  --card: var(--ink-panel);
+  --border: var(--gold-line);
+  --text: var(--ivory);
+  --text-muted: var(--ivory-muted);
+  --accent: var(--crimson);
+  --accent-text: var(--gold);
+  --accent-light: var(--gold-faint);
+  --accent-2: var(--crimson);
+  --accent-2-light: var(--crimson-glow);
+  --tag-bg: var(--ink);
+  --shadow: none;
+  --shadow-lg: none;
+  --radius: 0;
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-display);
 }
 
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: var(--font-sans);
-  background: var(--bg);
-  color: var(--text);
-  font-size: 16px;
+  font-family: var(--font-body);
+  background: var(--ink);
+  color: var(--ivory);
+  font-size: 1.1875rem;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
