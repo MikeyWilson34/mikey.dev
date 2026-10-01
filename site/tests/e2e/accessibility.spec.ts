@@ -3,7 +3,7 @@ import { test, expect } from './fixtures'
 
 const BLOCKING_IMPACTS = ['serious', 'critical']
 
-for (const path of ['/', '/projects']) {
+for (const path of ['/', '/projects', '/interests']) {
   test(`${path} has no serious or critical accessibility violations`, async ({ page }) => {
     await page.goto(path)
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()

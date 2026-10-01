@@ -1,8 +1,10 @@
-import { test, expect, RESUME_PATH } from './fixtures'
+import { test, expect, RESUME_PATH, openNavMenuIfCollapsed } from './fixtures'
 
-for (const path of ['/', '/projects']) {
+for (const path of ['/', '/projects', '/interests']) {
   test(`every resume link on ${path} points to the resume PDF`, async ({ page }) => {
     await page.goto(path)
+    // Some pages' only resume link is the nav button, behind the menu on phones
+    await openNavMenuIfCollapsed(page)
     const resumeLinks = page.getByRole('link', { name: /resume/i })
 
     await expect(resumeLinks.first()).toBeVisible()

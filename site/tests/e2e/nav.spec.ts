@@ -1,7 +1,13 @@
 import { test, expect, RESUME_PATH } from './fixtures'
 import type { Page } from '@playwright/test'
 
-const NAV_LINKS = ['About', 'Skills', 'Experience', 'Projects', 'Resume']
+const NAV_LINKS = ['About', 'Skills', 'Experience', 'Projects', 'Interests', 'Resume']
+
+// Nav links that go to their own page rather than a home-page section
+const PAGE_LINKS = [
+  { name: 'Projects', url: /\/projects$/, heading: /Things I've Built/ },
+  { name: 'Interests', url: /\/interests$/, heading: /Off the Clock/ },
+]
 
 async function hasHorizontalOverflow(page: Page) {
   return page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)
@@ -14,7 +20,7 @@ test.describe('nav on a phone', () => {
   // A typical iPhone width, slightly narrower than the project's Pixel 7.
   test.use({ viewport: { width: 390, height: 844 } })
 
-  for (const path of ['/', '/projects']) {
+  for (const path of ['/', '/projects', '/interests']) {
     test(`${path} has no horizontal overflow, with the menu closed or open`, async ({ page }) => {
       await page.goto(path)
       await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
@@ -62,17 +68,19 @@ test.describe('nav on a phone', () => {
     })
   }
 
-  test('menu link Projects navigates to the Projects page', async ({ page }) => {
-    await page.goto('/')
-    const nav = page.getByRole('navigation')
+  for (const { name, url, heading } of PAGE_LINKS) {
+    test(`menu link ${name} navigates to the ${name} page`, async ({ page }) => {
+      await page.goto('/')
+      const nav = page.getByRole('navigation')
 
-    await nav.getByRole('button', { name: 'Menu' }).click()
-    await nav.getByRole('link', { name: 'Projects' }).click()
+      await nav.getByRole('button', { name: 'Menu' }).click()
+      await nav.getByRole('link', { name }).click()
 
-    await expect(page).toHaveURL(/\/projects$/)
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText(/Things I've Built/)
-    await expect(nav.getByRole('button', { name: 'Menu' })).toHaveAttribute('aria-expanded', 'false')
-  })
+      await expect(page).toHaveURL(url)
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText(heading)
+      await expect(nav.getByRole('button', { name: 'Menu' })).toHaveAttribute('aria-expanded', 'false')
+    })
+  }
 
   test('menu link Resume downloads the resume PDF', async ({ page }) => {
     await page.goto('/')
@@ -102,7 +110,7 @@ test.describe('nav on a phone', () => {
 test.describe('nav on a desktop', () => {
   test.skip(({ isMobile }) => isMobile, 'desktop layout only')
 
-  for (const path of ['/', '/projects']) {
+  for (const path of ['/', '/projects', '/interests']) {
     test(`every nav link on ${path} is visible without a menu button`, async ({ page }) => {
       await page.goto(path)
       const nav = page.getByRole('navigation')
@@ -111,6 +119,19 @@ test.describe('nav on a desktop', () => {
       for (const name of NAV_LINKS) {
         await expect(nav.getByRole('link', { name })).toBeVisible()
       }
+    })
+  }
+
+  for (const { name, url, heading } of PAGE_LINKS) {
+    test(`nav link ${name} navigates to the ${name} page and marks itself active`, async ({ page }) => {
+      await page.goto('/')
+      const link = page.getByRole('navigation').getByRole('link', { name })
+
+      await link.click()
+
+      await expect(page).toHaveURL(url)
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText(heading)
+      await expect(link).toHaveClass(/active/)
     })
   }
 })
