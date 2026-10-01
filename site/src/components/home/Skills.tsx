@@ -11,7 +11,7 @@ interface SkillCategory {
 const categories: SkillCategory[] = [
   {
     sigil: 'wheel', title: 'Testing & Automation',
-    tags: ['Selenium', 'Appium', 'Robot Framework', 'Cypress', 'Mobile Testing', 'Regression Testing', 'API Testing'],
+    tags: ['Selenium', 'Appium', 'Robot Framework', 'Cypress', 'Playwright', 'Mobile Testing', 'Regression Testing', 'API Testing'],
   },
   {
     sigil: 'ledger', title: 'Languages',

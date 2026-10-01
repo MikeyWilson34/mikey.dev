@@ -41,3 +41,12 @@ test('direct load and hard refresh of /projects serve the Projects page', async 
   expect(reload?.status()).toBeLessThan(400)
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(/Things I've Built/)
 })
+
+test('the Skills section lists Playwright under Testing & Automation', async ({ page }) => {
+  await page.goto('/')
+  const testingGroup = page
+    .locator('#skills .plate')
+    .filter({ has: page.getByRole('heading', { name: 'Testing & Automation' }) })
+
+  await expect(testingGroup.getByRole('listitem').filter({ hasText: /^Playwright$/ })).toBeVisible()
+})
