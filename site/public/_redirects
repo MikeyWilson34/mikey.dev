@@ -1,0 +1,4 @@
+# SPA fallback: unknown paths (e.g. /projects) serve index.html so react-router
+# can render them. Real files like the resume PDF still win, because Netlify
+# only applies a rule when no static file matches (no "!" force flag here).
+/*    /index.html   200
