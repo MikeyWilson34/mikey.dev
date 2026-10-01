@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures'
+import { test, expect, openNavMenuIfCollapsed } from './fixtures'
 
 const pages = [
   { name: 'Home', path: '/', heading: /Michael Wilson/ },
@@ -19,6 +19,7 @@ test('nav links move between Home and Projects', async ({ page }) => {
   const nav = page.getByRole('navigation')
   const mainHeading = page.getByRole('heading', { level: 1 })
 
+  await openNavMenuIfCollapsed(page)
   await nav.getByRole('link', { name: 'Projects' }).click()
   await expect(page).toHaveURL(/\/projects$/)
   await expect(mainHeading).toHaveText(/Things I've Built/)

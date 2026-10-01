@@ -91,6 +91,33 @@ nav {
   color: var(--accent-text) !important;
 }
 
+/* Menu button: hidden on desktop, shown in the RESPONSIVE block below */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 0 9px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  display: block;
+  height: 2px;
+  background: var(--text);
+  border-radius: 1px;
+}
+
+.nav-toggle:hover,
+.nav-toggle[aria-expanded="true"] {
+  border-color: var(--text-muted);
+}
+
 /* HERO */
 .hero {
   max-width: 900px;
@@ -633,7 +660,32 @@ footer {
   section { padding: 2rem 1.5rem; margin: 1rem auto; }
   .resume-section { flex-direction: column; padding: 2rem; }
   nav { padding: 0 1rem; }
-  .nav-links { gap: 1rem; }
+  .nav-toggle { display: flex; }
+  /* Links collapse into a dropdown panel under the nav bar */
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.75rem 1rem 1rem;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+  .nav-links.open { display: flex; }
+  .nav-links a {
+    display: block;
+    padding: 0.6rem 0.25rem;
+    font-size: 0.95rem;
+  }
+  .nav-links .nav-resume {
+    display: inline-block;
+    margin-top: 0.25rem;
+    padding: 0.4rem 0.75rem;
+  }
   .page-header { padding: 3.5rem 1.5rem 2rem; }
   .project-card.featured {
     grid-template-columns: 1fr;
