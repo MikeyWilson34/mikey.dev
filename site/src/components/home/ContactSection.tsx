@@ -1,26 +1,23 @@
+import SectionHead from '../SectionHead'
+
 export default function ContactSection() {
   return (
     <section id="resume">
-      <div className="section-label">// resume</div>
-      <h2 className="section-title" style={{ marginBottom: '1.5rem' }}>Get In Touch</h2>
-      <div className="resume-section">
-        <div className="resume-text">
+      <SectionHead numeral="IV" label="Resume" title="Get In Touch" />
+      <div className="seal">
+        <div className="seal-text">
           <h3>Let's work together.</h3>
-          <p style={{ marginTop: '0.5rem' }}>
+          <p>
             I'm currently open to Senior QA Engineer and SDET roles. If you're building
             something that needs a quality-obsessed engineer who can also write the automation
             to prove it, I'd love to talk.
           </p>
         </div>
-        <div className="resume-actions">
-          <a href="mailto:mikeawilson34@gmail.com" className="btn btn-primary">
-            ✉️ Send an Email
-          </a>
-          <a href="/michael_wilson_resume.pdf" download className="btn btn-outline">
-            ⬇️ Download Resume
-          </a>
+        <div className="seal-actions">
+          <a href="mailto:mikeawilson34@gmail.com" className="btn btn-gold">Send an Email</a>
+          <a href="/michael_wilson_resume.pdf" download className="btn btn-outline">Download Resume</a>
           <a href="https://www.linkedin.com/in/michael-wilson-213788a7/" className="btn btn-outline" target="_blank" rel="noreferrer">
-            💼 LinkedIn
+            LinkedIn
           </a>
         </div>
       </div>

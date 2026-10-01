@@ -1,5 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
+import Sigil from './Sigil'
+
+type NavItem = { label: string } & ({ hash: string } | { to: string })
+
+// Home-page section anchors, then routes. To add a page, add a route entry
+// here; the bar and the small-screen menu both lay out from this list.
+const links: NavItem[] = [
+  { label: 'About', hash: '#about' },
+  { label: 'Skills', hash: '#skills' },
+  { label: 'Experience', hash: '#experience' },
+  { label: 'Projects', to: '/projects' },
+]
 
 export default function Nav() {
   const { pathname, hash } = useLocation()
@@ -31,7 +43,10 @@ export default function Nav() {
 
   return (
     <nav>
-      <NavLink to="/" className="nav-logo">mikey.dev</NavLink>
+      <NavLink to="/" className="nav-logo">
+        <Sigil className="nav-sigil" />
+        <span>mikey.dev</span>
+      </NavLink>
       <button
         ref={toggleRef}
         type="button"
@@ -47,18 +62,20 @@ export default function Nav() {
       </button>
       {/* Any link click closes the menu (same-page anchors don't change pathname) */}
       <ul id="nav-links" className={`nav-links${open ? ' open' : ''}`} onClick={() => setOpen(false)}>
-        <li><a href={anchor('#about')}>About</a></li>
-        <li><a href={anchor('#skills')}>Skills</a></li>
-        <li><a href={anchor('#experience')}>Experience</a></li>
-        <li>
-          <NavLink
-            to="/projects"
-            className={({ isActive }) => isActive ? 'active' : ''}
-          >
-            Projects
-          </NavLink>
+        {links.map((link) => (
+          <li key={link.label}>
+            {'hash' in link ? (
+              <a href={anchor(link.hash)}>{link.label}</a>
+            ) : (
+              <NavLink to={link.to} className={({ isActive }) => (isActive ? 'active' : '')}>
+                {link.label}
+              </NavLink>
+            )}
+          </li>
+        ))}
+        <li className="nav-resume-item">
+          <a href="/michael_wilson_resume.pdf" download className="nav-resume">Resume</a>
         </li>
-        <li><a href="/michael_wilson_resume.pdf" download className="nav-resume">Resume</a></li>
       </ul>
     </nav>
   )

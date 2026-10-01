@@ -1,4 +1,7 @@
-import FadeIn from '../FadeIn'
+import Sigil, { SigilVariant } from '../Sigil'
+import Marks from '../Marks'
+
+const NUMERALS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII']
 
 interface Highlight {
   label: string
@@ -6,25 +9,25 @@ interface Highlight {
 }
 
 interface Project {
-  icon: string
+  sigil: SigilVariant
   title: string
   description: string
-  tags: { label: string; accent?: boolean }[]
+  tags: string[]
   featured?: boolean
   highlights?: Highlight[]
 }
 
 const projects: Project[] = [
   {
-    icon: '📱',
+    sigil: 'spire',
     title: 'Mobile Automation Framework',
     featured: true,
     description:
       'Built a Python + Appium test framework from the ground up for iOS and Android. Implements the Page Object Model pattern for maintainability and integrates into the CI pipeline to run on every mobile release candidate. The framework reduced manual regression time significantly and serves as the team\'s primary quality gate for every release.',
     tags: [
-      { label: 'Python' }, { label: 'Appium' },
-      { label: 'POM Pattern' }, { label: 'CI/CD' },
-      { label: 'Android' },
+      'Python', 'Appium',
+      'POM Pattern', 'CI/CD',
+      'Android',
     ],
     highlights: [
       { label: 'Type', value: 'Mobile Test Automation' },
@@ -34,33 +37,33 @@ const projects: Project[] = [
     ],
   },
   {
-    icon: '🤖',
+    sigil: 'wheel',
     title: 'Robot Framework Test Suite',
     description:
       'Designed a keyword-driven regression test suite using Robot Framework. Structured for readability by non-engineers, enabling QA and product to both contribute to test coverage with minimal friction.',
     tags: [
-      { label: 'Robot Framework' }, { label: 'Python' },
-      { label: 'Keyword-Driven' }, { label: 'Regression' },
+      'Robot Framework', 'Python',
+      'Keyword-Driven', 'Regression',
     ],
   },
   {
-    icon: '🌲',
+    sigil: 'gate',
     title: 'Cypress Web Test Suite',
     description:
       'Built a Cypress end-to-end test framework expanding test coverage to the web layer. Focused on reliable selectors, network request stubbing, and fast feedback loops during development.',
     tags: [
-      { label: 'Cypress' }, { label: 'JavaScript' },
-      { label: 'E2E Testing' }, { label: 'Web Automation' },
+      'Cypress', 'JavaScript',
+      'E2E Testing', 'Web Automation',
     ],
   },
   {
-    icon: '📋',
+    sigil: 'ledger',
     title: 'Mobile Release Coordination System',
     description:
       'Designed and lead a repeatable monthly release process for mobile apps — from test plan creation and sign-off coordination to deployment checklists — reducing release-day issues significantly.',
     tags: [
-      { label: 'Process Design' }, { label: 'Release Management' },
-      { label: 'Mobile QA' }, { label: 'Leadership' },
+      'Process Design', 'Release Management',
+      'Mobile QA', 'Leadership',
     ],
   },
 ]
@@ -70,53 +73,39 @@ export default function ProjectsGrid() {
   const rest = projects.filter((p) => !p.featured)
 
   return (
-    <section>
-      <div className="projects-grid">
-
-        <FadeIn delay={0}>
-          <div className="project-card featured">
-            <div className="project-body">
-              <div className="project-icon">{featured.icon}</div>
-              <div className="project-title" style={{ fontSize: '1.15rem', marginBottom: '0.75rem' }}>
-                {featured.title}
-              </div>
-              <p className="project-desc">{featured.description}</p>
-              <div className="project-footer">
-                {featured.tags.map((tag) => (
-                  <span key={tag.label} className={`tag${tag.accent ? ' tag-accent' : ''}`}>
-                    {tag.label}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div className="project-highlights">
-              {featured.highlights!.map((h) => (
-                <div key={h.label} className="highlight-item">
-                  <span className="highlight-label">{h.label}</span>
-                  <span className="highlight-value">{h.value}</span>
-                </div>
-              ))}
-            </div>
+    <section className="projects">
+      <article className="plate plate-featured">
+        <div className="project-body">
+          <div className="project-mark">
+            <span className="project-num" aria-hidden="true">{NUMERALS[0]}</span>
+            <Sigil variant={featured.sigil} className="plate-sigil" />
           </div>
-        </FadeIn>
-
-        {rest.map((project, i) => (
-          <FadeIn key={project.title} delay={i + 1}>
-            <div className="project-card">
-              <div className="project-icon">{project.icon}</div>
-              <div className="project-title">{project.title}</div>
-              <p className="project-desc">{project.description}</p>
-              <div className="project-footer">
-                {project.tags.map((tag) => (
-                  <span key={tag.label} className={`tag${tag.accent ? ' tag-accent' : ''}`}>
-                    {tag.label}
-                  </span>
-                ))}
-              </div>
+          <h2 className="project-title">{featured.title}</h2>
+          <p className="project-desc">{featured.description}</p>
+          <Marks items={featured.tags} />
+        </div>
+        <dl className="project-highlights">
+          {featured.highlights!.map((h) => (
+            <div key={h.label} className="highlight-item">
+              <dt>{h.label}</dt>
+              <dd>{h.value}</dd>
             </div>
-          </FadeIn>
-        ))}
+          ))}
+        </dl>
+      </article>
 
+      <div className="projects-grid">
+        {rest.map((project, i) => (
+          <article key={project.title} className="plate">
+            <div className="project-mark">
+              <span className="project-num" aria-hidden="true">{NUMERALS[i + 1]}</span>
+              <Sigil variant={project.sigil} className="plate-sigil" />
+            </div>
+            <h2 className="project-title">{project.title}</h2>
+            <p className="project-desc">{project.description}</p>
+            <Marks items={project.tags} />
+          </article>
+        ))}
       </div>
     </section>
   )

@@ -1,67 +1,45 @@
-import FadeIn from '../FadeIn'
+import SectionHead from '../SectionHead'
+import Sigil, { SigilVariant } from '../Sigil'
+import Marks from '../Marks'
 
 interface SkillCategory {
-  icon: string
-  iconClass: string
+  sigil: SigilVariant
   title: string
-  tags: { label: string; accent?: boolean }[]
+  tags: string[]
 }
 
 const categories: SkillCategory[] = [
   {
-    icon: '🧪', iconClass: 'icon-blue', title: 'Testing & Automation',
-    tags: [
-      { label: 'Selenium'}, { label: 'Appium'},
-      { label: 'Robot Framework'}, { label: 'Cypress'},
-      { label: 'Mobile Testing' }, { label: 'Regression Testing' }, { label: 'API Testing' },
-    ],
+    sigil: 'wheel', title: 'Testing & Automation',
+    tags: ['Selenium', 'Appium', 'Robot Framework', 'Cypress', 'Mobile Testing', 'Regression Testing', 'API Testing'],
   },
   {
-    icon: '🐍', iconClass: 'icon-green', title: 'Languages',
-    tags: [
-      { label: 'Python'}, { label: 'JavaScript'},
-      { label: 'TypeScript'}, { label: 'SQL' },
-      { label: 'PostgreSQL' }, { label: 'MySQL' },
-    ],
+    sigil: 'ledger', title: 'Languages',
+    tags: ['Python', 'JavaScript', 'TypeScript', 'SQL', 'PostgreSQL', 'MySQL'],
   },
   {
-    icon: '⚙️', iconClass: 'icon-purple', title: 'Tools',
-    tags: [
-      { label: 'Jira'}, { label: 'Git'},
-      { label: 'Postman'}, { label: 'AWS' },
-      { label: 'X-ray' }, { label: 'Confluence' }, { label: 'Android Studio' },
-      { label: 'Google Play' }, { label: 'TestFlight' },
-    ],
+    sigil: 'gate', title: 'Tools',
+    tags: ['Jira', 'Git', 'Postman', 'AWS', 'X-ray', 'Confluence', 'Android Studio', 'Google Play', 'TestFlight'],
   },
   {
-    icon: '🔬', iconClass: 'icon-blue', title: 'Methodologies',
-    tags: [
-      { label: 'Agile/Scrum'}, { label: 'Test Planning'},
-      { label: 'Release Management'},
-    ],
+    sigil: 'spire', title: 'Methodologies',
+    tags: ['Agile/Scrum', 'Test Planning', 'Release Management'],
   },
 ]
 
 export default function Skills() {
   return (
     <section id="skills">
-      <div className="section-label">// skills</div>
-      <h2 className="section-title">Tools &amp; Tech Stack</h2>
+      <SectionHead numeral="II" label="Skills" title={<>Tools &amp; Tech Stack</>} />
       <div className="skills-grid">
-        {categories.map((cat, i) => (
-          <FadeIn key={cat.title} delay={i}>
-            <div className="skill-category">
-              <div className={`skill-cat-icon ${cat.iconClass}`}>{cat.icon}</div>
-              <div className="skill-cat-title">{cat.title}</div>
-              <div className="skill-tags">
-                {cat.tags.map((tag) => (
-                  <span key={tag.label} className={`tag${tag.accent ? ' tag-accent' : ''}`}>
-                    {tag.label}
-                  </span>
-                ))}
-              </div>
+        {categories.map((cat) => (
+          <div key={cat.title} className="plate">
+            <div className="plate-head">
+              <Sigil variant={cat.sigil} className="plate-sigil" />
+              <h3 className="plate-title">{cat.title}</h3>
             </div>
-          </FadeIn>
+            <Marks items={cat.tags} />
+          </div>
         ))}
       </div>
     </section>
