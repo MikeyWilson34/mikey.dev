@@ -11,6 +11,7 @@ const links: NavItem[] = [
   { label: 'Skills', hash: '#skills' },
   { label: 'Experience', hash: '#experience' },
   { label: 'Projects', to: '/projects' },
+  { label: 'Interests', to: '/interests' },
 ]
 
 export default function Nav() {

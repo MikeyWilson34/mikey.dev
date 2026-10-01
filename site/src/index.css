@@ -940,6 +940,80 @@ section {
 
 .projects-grid .project-desc { flex: 1; }
 
+/* ---------- Interests page ---------- */
+
+.interest .section-title { margin-bottom: 2rem; }
+
+/* Intro and sigil on the left, the ruled list of favorites on the right */
+.interest-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+
+.interest-intro {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+.interest-sigil {
+  flex: none;
+  width: 52px;
+  height: 52px;
+  color: var(--gold);
+}
+
+.interest-intro p {
+  font-size: 1.25rem;
+  line-height: 1.7;
+  color: var(--ivory-muted);
+}
+
+.favorites {
+  padding-block: 0.6rem;
+}
+
+.favorite {
+  display: grid;
+  grid-template-columns: 12.5rem minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: baseline;
+  padding: 0.9rem 0;
+}
+
+.favorite + .favorite { border-top: 1px solid var(--gold-hair); }
+
+.favorite dt {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.favorite dd {
+  font-size: 1.1875rem;
+  line-height: 1.5;
+  color: var(--ivory);
+}
+
+.favorite cite { font-style: italic; }
+
+.interests-coda p {
+  max-width: 34em;
+  margin: 0 auto;
+  font-style: italic;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  text-align: center;
+  text-wrap: balance;
+  color: var(--ivory-muted);
+}
+
 /* ---------- Footer ---------- */
 
 footer {
@@ -1057,6 +1131,8 @@ footer p {
 }
 
 @media (max-width: 860px) {
+  .interest-body { grid-template-columns: minmax(0, 1fr); }
+
   .hero-band,
   .about,
   .seal,
@@ -1108,6 +1184,10 @@ footer p {
 }
 
 @media (max-width: 600px) {
+  .favorite { grid-template-columns: minmax(0, 1fr); gap: 0.2rem; }
+
+  .interest-sigil { width: 42px; height: 42px; }
+
   body { font-size: 1.125rem; }
 
   .skills-grid { grid-template-columns: minmax(0, 1fr); }

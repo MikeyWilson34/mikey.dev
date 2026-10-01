@@ -3,7 +3,9 @@
  * Purely decorative: always hidden from assistive tech. Colour follows
  * `currentColor`, so set it with CSS on the parent or via className.
  */
-export type SigilVariant = 'crest' | 'spire' | 'wheel' | 'gate' | 'ledger'
+export type SigilVariant =
+  | 'crest' | 'spire' | 'wheel' | 'gate' | 'ledger'
+  | 'dawn' | 'pad' | 'orb' | 'reel'
 
 interface SigilProps {
   variant?: SigilVariant
@@ -52,6 +54,45 @@ const paths: Record<SigilVariant, JSX.Element> = {
       <path d="M24 3 45 24 24 45 3 24Z" />
       <path d="M15 20h18M12 24h24M15 28h18" />
       <path d="M24 8v4M24 36v4" />
+    </>
+  ),
+  // A sun half-risen over a horizon, with rays
+  dawn: (
+    <>
+      <path d="M2 32h44" />
+      <path d="M12 32a12 12 0 0 1 24 0" />
+      <path d="M24 6v8M9.9 15.9l5 5M38.1 15.9l-5 5M3 24h6M39 24h6" />
+      <path d="M12 38h24M18 44h12" />
+      <path d="M24 23 28 27.5 24 32 20 27.5Z" fill="currentColor" stroke="none" />
+    </>
+  ),
+  // A plus-shaped direction pad with a diamond centre
+  pad: (
+    <>
+      <path d="M18 5h12v13h13v12H30v13H18V30H5V18h13Z" />
+      <path d="M24 9v5M24 34v5M9 24h5M34 24h5" />
+      <path d="M24 19 29 24 24 29 19 24Z" fill="currentColor" stroke="none" />
+    </>
+  ),
+  // A ball: a ring crossed by seams
+  orb: (
+    <>
+      <circle cx="24" cy="24" r="19" />
+      <path d="M24 5v38M5 24h38" />
+      <path d="M11 10.5c5 4 8 8.5 8 13.5s-3 9.5-8 13.5M37 10.5c-5 4-8 8.5-8 13.5s3 9.5 8 13.5" />
+    </>
+  ),
+  // A film reel trailing its strip
+  reel: (
+    <>
+      <circle cx="24" cy="24" r="19" />
+      <circle cx="24" cy="14" r="4" />
+      <circle cx="33.5" cy="20.9" r="4" />
+      <circle cx="29.9" cy="32.1" r="4" />
+      <circle cx="18.1" cy="32.1" r="4" />
+      <circle cx="14.5" cy="20.9" r="4" />
+      <path d="M24 43h22" />
+      <path d="M24 21.5 26.5 24 24 26.5 21.5 24Z" fill="currentColor" stroke="none" />
     </>
   ),
 }
