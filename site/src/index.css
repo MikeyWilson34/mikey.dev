@@ -8,6 +8,8 @@
   --text: #f1f5f9;
   --text-muted: #94a3b8;
   --accent: #6366f1;
+  /* Lighter accent for text on dark backgrounds (WCAG AA contrast) */
+  --accent-text: #939afa;
   --accent-light: rgba(99, 102, 241, 0.12);
   --accent-2: #8b5cf6;
   --accent-2-light: rgba(139, 92, 246, 0.1);
@@ -76,7 +78,7 @@ nav {
 }
 
 .nav-resume {
-  color: var(--accent) !important;
+  color: var(--accent-text) !important;
   border: 1px solid rgba(99, 102, 241, 0.4);
   border-radius: 6px;
   padding: 0.3rem 0.75rem;
@@ -86,7 +88,7 @@ nav {
 .nav-resume:hover {
   background: var(--accent-light);
   border-color: var(--accent) !important;
-  color: var(--accent) !important;
+  color: var(--accent-text) !important;
 }
 
 /* HERO */
@@ -107,7 +109,7 @@ nav {
   font-family: var(--font-sans);
   font-size: 0.75rem;
   font-weight: 500;
-  color: var(--accent);
+  color: var(--accent-text);
   background: var(--accent-light);
   border: 1px solid rgba(99, 102, 241, 0.25);
   padding: 0.3rem 0.75rem;
@@ -140,7 +142,7 @@ nav {
 
 .hero h1 em {
   font-style: italic;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .hero-sub {
@@ -175,7 +177,7 @@ nav {
 }
 
 .btn-primary {
-  background: var(--accent);
+  background: #5b5ef0;
   color: #fff;
   font-weight: 600;
 }
@@ -200,7 +202,7 @@ nav {
 
 .btn-resume {
   background: var(--accent-2-light);
-  color: var(--accent-2);
+  color: #a78bfa;
   border: 1px solid rgba(139, 92, 246, 0.35);
   font-weight: 600;
 }
@@ -266,7 +268,7 @@ section {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 500;
-  color: var(--accent);
+  color: var(--accent-text);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   margin-bottom: 0.6rem;
@@ -300,7 +302,7 @@ section {
 
 .page-header h1 em {
   font-style: italic;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .page-header p {
@@ -377,7 +379,7 @@ section {
 
 .tag-accent {
   background: var(--accent-light);
-  color: var(--accent);
+  color: var(--accent-text);
   border-color: rgba(99, 102, 241, 0.2);
 }
 
@@ -425,7 +427,7 @@ section {
 .exp-company {
   font-family: var(--font-sans);
   font-size: 0.875rem;
-  color: var(--accent);
+  color: var(--accent-text);
   font-weight: 500;
   margin-bottom: 0.25rem;
 }
@@ -539,7 +541,7 @@ section {
 .highlight-label {
   font-family: var(--font-mono);
   font-size: 0.65rem;
-  color: var(--accent);
+  color: var(--accent-text);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-weight: 500;
