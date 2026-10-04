@@ -47,9 +47,9 @@ for (const { name, path, heading } of pages.filter((p) => p.path !== '/')) {
   })
 }
 
-test('Home keeps its sections short: About, Skills and Resume, numbered in order', async ({ page }) => {
+test('Home keeps its sections short: About, Skills and Contact, numbered in order', async ({ page }) => {
   await page.goto('/')
-  await expect(page.locator('main .section-label')).toHaveText(['01About', '02Skills', '03Resume'])
+  await expect(page.locator('main .section-label')).toHaveText(['01About', '02Skills', '03Contact'])
   // The job history lives on /experience now
   await expect(page.locator('.job')).toHaveCount(0)
 })
