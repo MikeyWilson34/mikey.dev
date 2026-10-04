@@ -572,9 +572,16 @@ nav {
 /* The label reads as the folder path the photos come from */
 .interest .section-label { text-transform: none; letter-spacing: 0; }
 
+/* Square frame, capped so it stays a comfortable size on wide screens.
+   Left-aligned, so it lines up with the rest of the content column. */
+.gallery,
+.gallery-frame {
+  max-width: 35rem; /* 560px */
+}
+
 .gallery-frame {
   position: relative;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   background: var(--surface);
   border-radius: var(--radius);

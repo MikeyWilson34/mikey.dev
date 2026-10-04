@@ -1,7 +1,6 @@
 const stats = [
   { num: '6+', label: 'Years QA experience' },
   { num: '3', label: 'Automation stacks' },
-  { num: '∞', label: 'Bugs caught' },
 ]
 
 export default function Hero() {

@@ -46,12 +46,14 @@ names that say what's in the picture rather than `IMG_2034.jpg`.
 
 ## What size works best
 
-- Roughly **1600px wide**.
+- **Square, about 1200×1200px.** The frame is a square crop (1:1) and
+  crops anything else to fill it, so a square image shows in full, a
+  landscape one loses its sides and a tall one loses its top and bottom.
+  Crop to square yourself if you want to choose what stays in view.
 - **Under ~500KB** each. Exporting as `.webp` or `.jpg` at around 80% quality
   usually gets there.
-- The **same shape throughout**. The frame is 3:2 (landscape, like most
-  camera photos) and crops anything else to fill it, so a 3:2 image shows
-  in full and a tall or square one loses its top and bottom.
+- Photos show with **no caption**. The filename only becomes the alt text
+  (see above), which screen readers announce but isn't shown on the page.
 
 ## Adding a new interest
 
