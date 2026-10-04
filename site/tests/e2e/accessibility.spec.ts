@@ -8,7 +8,7 @@ for (const colorScheme of ['light', 'dark'] as const) {
   test.describe(`${colorScheme} theme`, () => {
     test.use({ colorScheme })
 
-    for (const path of ['/', '/projects', '/interests']) {
+    for (const path of ['/', '/experience', '/projects', '/interests']) {
       test(`${path} has no serious or critical accessibility violations`, async ({ page }) => {
         await page.goto(path)
         await expect(page.getByRole('heading', { level: 1 })).toBeVisible()

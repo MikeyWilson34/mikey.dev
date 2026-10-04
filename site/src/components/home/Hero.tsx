@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 const stats = [
   { num: '6+', label: 'Years QA experience' },
   { num: '3', label: 'Automation stacks' },
@@ -22,7 +24,7 @@ export default function Hero() {
             delivering high-quality software through strategic testing.
           </p>
           <div className="actions">
-            <a href="#experience" className="btn btn-primary">View My Work</a>
+            <Link to="/projects" className="btn btn-primary">View My Work</Link>
             <a href="/michael_wilson_resume.pdf" download className="btn btn-secondary">Download Resume</a>
           </div>
         </div>

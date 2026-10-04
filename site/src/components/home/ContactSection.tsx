@@ -2,7 +2,7 @@ import Section from '../Section'
 
 export default function ContactSection() {
   return (
-    <Section id="resume" index="04" label="Resume" title="Get in touch">
+    <Section id="resume" index="03" label="Resume" title="Get in touch">
       <div className="callout">
         <div className="callout-text">
           <h3>Let's work together.</h3>

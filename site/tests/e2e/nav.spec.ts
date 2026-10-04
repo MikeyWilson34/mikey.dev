@@ -1,10 +1,13 @@
-import { test, expect, RESUME_PATH } from './fixtures'
+import { test, expect, RESUME_PATH, openNavMenuIfCollapsed } from './fixtures'
 import type { Page } from '@playwright/test'
 
-const NAV_LINKS = ['About', 'Skills', 'Experience', 'Projects', 'Interests', 'Resume']
+const NAV_LINKS = ['Home', 'Experience', 'Projects', 'Interests', 'Resume']
 
-// Nav links that go to their own page rather than a home-page section
+// Every page link, with where it goes. Each test starts on a page other than
+// the link's own, so the click is a real navigation.
 const PAGE_LINKS = [
+  { name: 'Home', url: /\/$/, heading: /Michael Wilson/ },
+  { name: 'Experience', url: /\/experience$/, heading: /Where I've built things/ },
   { name: 'Projects', url: /\/projects$/, heading: /Things I've Built/ },
   { name: 'Interests', url: /\/interests$/, heading: /Off the Clock/ },
 ]
@@ -20,7 +23,7 @@ test.describe('nav on a phone', () => {
   // A typical iPhone width, slightly narrower than the project's Pixel 7.
   test.use({ viewport: { width: 390, height: 844 } })
 
-  for (const path of ['/', '/projects', '/interests']) {
+  for (const path of ['/', '/experience', '/projects', '/interests']) {
     test(`${path} has no horizontal overflow, with the menu closed or open`, async ({ page }) => {
       await page.goto(path)
       await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
@@ -37,7 +40,7 @@ test.describe('nav on a phone', () => {
 
       // Collapsed by default: links are hidden until the menu is opened
       await expect(toggle).toHaveAttribute('aria-expanded', 'false')
-      await expect(nav.getByRole('link', { name: 'About' })).toBeHidden()
+      await expect(nav.getByRole('link', { name: 'Experience' })).toBeHidden()
 
       await toggle.click()
       await expect(toggle).toHaveAttribute('aria-expanded', 'true')
@@ -53,32 +56,23 @@ test.describe('nav on a phone', () => {
     })
   }
 
-  for (const name of ['About', 'Skills', 'Experience']) {
-    test(`menu link ${name} scrolls to its section and closes the menu`, async ({ page }) => {
-      await page.goto('/')
+  for (const { name, url, heading } of PAGE_LINKS) {
+    test(`menu link ${name} navigates to the ${name} page and closes the menu`, async ({ page }) => {
+      await page.goto(name === 'Home' ? '/projects' : '/')
       const nav = page.getByRole('navigation')
       const toggle = nav.getByRole('button', { name: 'Menu' })
 
       await toggle.click()
       await nav.getByRole('link', { name }).click()
 
-      await expect(page).toHaveURL(new RegExp(`#${name.toLowerCase()}$`))
-      await expect(toggle).toHaveAttribute('aria-expanded', 'false')
-      await expect(nav.getByRole('link', { name })).toBeHidden()
-    })
-  }
-
-  for (const { name, url, heading } of PAGE_LINKS) {
-    test(`menu link ${name} navigates to the ${name} page`, async ({ page }) => {
-      await page.goto('/')
-      const nav = page.getByRole('navigation')
-
-      await nav.getByRole('button', { name: 'Menu' }).click()
-      await nav.getByRole('link', { name }).click()
-
       await expect(page).toHaveURL(url)
       await expect(page.getByRole('heading', { level: 1 })).toHaveText(heading)
-      await expect(nav.getByRole('button', { name: 'Menu' })).toHaveAttribute('aria-expanded', 'false')
+      await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+      await expect(nav.getByRole('link', { name })).toBeHidden()
+
+      // The link for the current page is marked once the menu is reopened
+      await toggle.click()
+      await expect(nav.getByRole('link', { name })).toHaveClass(/active/)
     })
   }
 
@@ -103,14 +97,14 @@ test.describe('nav on a phone', () => {
     await page.keyboard.press('Escape')
     await expect(toggle).toHaveAttribute('aria-expanded', 'false')
     await expect(toggle).toBeFocused()
-    await expect(page.getByRole('navigation').getByRole('link', { name: 'About' })).toBeHidden()
+    await expect(page.getByRole('navigation').getByRole('link', { name: 'Experience' })).toBeHidden()
   })
 })
 
 test.describe('nav on a desktop', () => {
   test.skip(({ isMobile }) => isMobile, 'desktop layout only')
 
-  for (const path of ['/', '/projects', '/interests']) {
+  for (const path of ['/', '/experience', '/projects', '/interests']) {
     test(`every nav link on ${path} is visible without a menu button`, async ({ page }) => {
       await page.goto(path)
       const nav = page.getByRole('navigation')
@@ -124,7 +118,7 @@ test.describe('nav on a desktop', () => {
 
   for (const { name, url, heading } of PAGE_LINKS) {
     test(`nav link ${name} navigates to the ${name} page and marks itself active`, async ({ page }) => {
-      await page.goto('/')
+      await page.goto(name === 'Home' ? '/projects' : '/')
       const link = page.getByRole('navigation').getByRole('link', { name })
 
       await link.click()
@@ -135,3 +129,21 @@ test.describe('nav on a desktop', () => {
     })
   }
 })
+
+// Exactly one page link is active on each route. Home matches only "/",
+// not every path that starts with it.
+for (const { name: current, url } of PAGE_LINKS) {
+  const path = current === 'Home' ? '/' : `/${current.toLowerCase()}`
+  test(`only the ${current} nav link is active on ${path}`, async ({ page }) => {
+    await page.goto(path)
+    await expect(page).toHaveURL(url)
+    const nav = page.getByRole('navigation')
+    await openNavMenuIfCollapsed(page)
+
+    for (const { name } of PAGE_LINKS) {
+      const link = nav.getByRole('link', { name })
+      if (name === current) await expect(link).toHaveClass(/active/)
+      else await expect(link).not.toHaveClass(/active/)
+    }
+  })
+}

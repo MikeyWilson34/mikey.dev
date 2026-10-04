@@ -1,4 +1,3 @@
-import Section from '../Section'
 import Tags from '../Tags'
 
 interface Job {
@@ -72,7 +71,7 @@ const jobs: Job[] = [
 
 export default function Experience() {
   return (
-    <Section id="experience" index="03" label="Experience" title="Where I've built things">
+    <section className="section-plain" aria-label="Job history">
       <ol className="rows timeline">
         {jobs.map((job) => (
           <li key={job.company} className="row job">
@@ -89,6 +88,6 @@ export default function Experience() {
           </li>
         ))}
       </ol>
-    </Section>
+    </section>
   )
 }

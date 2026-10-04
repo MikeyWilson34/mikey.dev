@@ -1,21 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 
-type NavItem = { label: string } & ({ hash: string } | { to: string })
-
-// Home-page section anchors, then routes. To add a page, add a route entry
-// here; the bar and the small-screen menu both lay out from this list.
-const links: NavItem[] = [
-  { label: 'About', hash: '#about' },
-  { label: 'Skills', hash: '#skills' },
-  { label: 'Experience', hash: '#experience' },
+// One entry per page. To add a page, add its route here; the bar and the
+// small-screen menu both lay out from this list.
+const links = [
+  { label: 'Home', to: '/' },
+  { label: 'Experience', to: '/experience' },
   { label: 'Projects', to: '/projects' },
   { label: 'Interests', to: '/interests' },
 ]
 
 export default function Nav() {
   const { pathname, hash } = useLocation()
-  const home = pathname === '/'
   // Only matters on small screens, where the links collapse behind a menu button
   const [open, setOpen] = useState(false)
   const toggleRef = useRef<HTMLButtonElement>(null)
@@ -36,11 +32,6 @@ export default function Nav() {
     return () => document.removeEventListener('keydown', onKeyDown)
   }, [open])
 
-  // Anchor links scroll on the home page; from other pages, navigate home first
-  function anchor(hash: string) {
-    return home ? hash : `/${hash}`
-  }
-
   return (
     <nav>
       <NavLink to="/" className="nav-logo">mikey.dev</NavLink>
@@ -57,17 +48,14 @@ export default function Nav() {
         <span aria-hidden="true" />
         <span aria-hidden="true" />
       </button>
-      {/* Any link click closes the menu (same-page anchors don't change pathname) */}
+      {/* Any link click closes the menu (including a click on the current page's link) */}
       <ul id="nav-links" className={`nav-links${open ? ' open' : ''}`} onClick={() => setOpen(false)}>
         {links.map((link) => (
           <li key={link.label}>
-            {'hash' in link ? (
-              <a href={anchor(link.hash)}>{link.label}</a>
-            ) : (
-              <NavLink to={link.to} className={({ isActive }) => (isActive ? 'active' : '')}>
-                {link.label}
-              </NavLink>
-            )}
+            {/* `end` so Home is only active on "/" itself, not on every route */}
+            <NavLink to={link.to} end className={({ isActive }) => (isActive ? 'active' : '')}>
+              {link.label}
+            </NavLink>
           </li>
         ))}
         <li className="nav-resume-item">
