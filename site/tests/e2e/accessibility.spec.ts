@@ -3,21 +3,28 @@ import { test, expect } from './fixtures'
 
 const BLOCKING_IMPACTS = ['serious', 'critical']
 
-for (const path of ['/', '/projects', '/interests']) {
-  test(`${path} has no serious or critical accessibility violations`, async ({ page }) => {
-    await page.goto(path)
-    await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+// The site follows the OS theme, so check both palettes (colour contrast above all).
+for (const colorScheme of ['light', 'dark'] as const) {
+  test.describe(`${colorScheme} theme`, () => {
+    test.use({ colorScheme })
 
-    const { violations } = await new AxeBuilder({ page }).analyze()
-    const blocking = violations
-      .filter((violation) => BLOCKING_IMPACTS.includes(violation.impact ?? ''))
-      .map(({ id, impact, help, nodes }) => ({
-        id,
-        impact,
-        help,
-        nodes: nodes.map((node) => `${node.target.join(' ')} -> ${node.failureSummary}`),
-      }))
+    for (const path of ['/', '/projects', '/interests']) {
+      test(`${path} has no serious or critical accessibility violations`, async ({ page }) => {
+        await page.goto(path)
+        await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
 
-    expect(blocking).toEqual([])
+        const { violations } = await new AxeBuilder({ page }).analyze()
+        const blocking = violations
+          .filter((violation) => BLOCKING_IMPACTS.includes(violation.impact ?? ''))
+          .map(({ id, impact, help, nodes }) => ({
+            id,
+            impact,
+            help,
+            nodes: nodes.map((node) => `${node.target.join(' ')} -> ${node.failureSummary}`),
+          }))
+
+        expect(blocking).toEqual([])
+      })
+    }
   })
 }

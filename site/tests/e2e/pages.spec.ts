@@ -49,7 +49,7 @@ for (const { name, path, heading } of pages.filter((p) => p.path !== '/')) {
 test('the Skills section lists Playwright under Testing & Automation', async ({ page }) => {
   await page.goto('/')
   const testingGroup = page
-    .locator('#skills .plate')
+    .locator('#skills .skill-group')
     .filter({ has: page.getByRole('heading', { name: 'Testing & Automation' }) })
 
   await expect(testingGroup.getByRole('listitem').filter({ hasText: /^Playwright$/ })).toBeVisible()
