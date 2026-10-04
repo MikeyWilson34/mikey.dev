@@ -1,12 +1,8 @@
-import Sigil from './Sigil'
-
 export default function Footer() {
   return (
-    <footer>
-      <div className="footer-rule" aria-hidden="true">
-        <Sigil className="footer-sigil" />
-      </div>
-      <p>Built by Mikey &nbsp;·&nbsp; SDET &amp; QA Engineer &nbsp;·&nbsp; Utah</p>
+    <footer className="footer">
+      <p>Michael Wilson &middot; SDET &amp; QA Engineer &middot; Utah</p>
+      <p>Built with React. Tested with Playwright on every deploy.</p>
     </footer>
   )
 }

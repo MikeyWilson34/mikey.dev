@@ -1,7 +1,7 @@
-import Sigil, { SigilVariant } from '../Sigil'
-import Marks from '../Marks'
+import Tags from '../Tags'
 
-const NUMERALS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII']
+/** Zero-padded index, e.g. 2 -> '02' */
+const indexLabel = (i: number) => String(i + 1).padStart(2, '0')
 
 interface Highlight {
   label: string
@@ -9,7 +9,6 @@ interface Highlight {
 }
 
 interface Project {
-  sigil: SigilVariant
   title: string
   description: string
   tags: string[]
@@ -19,7 +18,6 @@ interface Project {
 
 const projects: Project[] = [
   {
-    sigil: 'spire',
     title: 'Mobile Automation Framework',
     featured: true,
     description:
@@ -37,7 +35,6 @@ const projects: Project[] = [
     ],
   },
   {
-    sigil: 'wheel',
     title: 'Robot Framework Test Suite',
     description:
       'Designed a keyword-driven regression test suite using Robot Framework. Structured for readability by non-engineers, enabling QA and product to both contribute to test coverage with minimal friction.',
@@ -47,7 +44,6 @@ const projects: Project[] = [
     ],
   },
   {
-    sigil: 'gate',
     title: 'Cypress Web Test Suite',
     description:
       'Built a Cypress end-to-end test framework expanding test coverage to the web layer. Focused on reliable selectors, network request stubbing, and fast feedback loops during development.',
@@ -57,7 +53,6 @@ const projects: Project[] = [
     ],
   },
   {
-    sigil: 'ledger',
     title: 'Mobile Release Coordination System',
     description:
       'Designed and lead a repeatable monthly release process for mobile apps — from test plan creation and sign-off coordination to deployment checklists — reducing release-day issues significantly.',
@@ -74,19 +69,16 @@ export default function ProjectsGrid() {
 
   return (
     <section className="projects">
-      <article className="plate plate-featured">
-        <div className="project-body">
-          <div className="project-mark">
-            <span className="project-num" aria-hidden="true">{NUMERALS[0]}</span>
-            <Sigil variant={featured.sigil} className="plate-sigil" />
-          </div>
+      <article className="featured">
+        <div className="featured-body">
+          <p className="kicker"><span aria-hidden="true">{indexLabel(0)}</span> Featured project</p>
           <h2 className="project-title">{featured.title}</h2>
           <p className="project-desc">{featured.description}</p>
-          <Marks items={featured.tags} />
+          <Tags items={featured.tags} />
         </div>
-        <dl className="project-highlights">
+        <dl className="spec">
           {featured.highlights!.map((h) => (
-            <div key={h.label} className="highlight-item">
+            <div key={h.label}>
               <dt>{h.label}</dt>
               <dd>{h.value}</dd>
             </div>
@@ -94,16 +86,15 @@ export default function ProjectsGrid() {
         </dl>
       </article>
 
-      <div className="projects-grid">
+      <div className="rows project-list">
         {rest.map((project, i) => (
-          <article key={project.title} className="plate">
-            <div className="project-mark">
-              <span className="project-num" aria-hidden="true">{NUMERALS[i + 1]}</span>
-              <Sigil variant={project.sigil} className="plate-sigil" />
+          <article key={project.title} className="row project">
+            <p className="project-index" aria-hidden="true">{indexLabel(i + 1)}</p>
+            <div>
+              <h2 className="project-title">{project.title}</h2>
+              <p className="project-desc">{project.description}</p>
+              <Tags items={project.tags} />
             </div>
-            <h2 className="project-title">{project.title}</h2>
-            <p className="project-desc">{project.description}</p>
-            <Marks items={project.tags} />
           </article>
         ))}
       </div>

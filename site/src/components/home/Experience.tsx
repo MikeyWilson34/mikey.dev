@@ -1,7 +1,5 @@
-import SectionHead from '../SectionHead'
-import Marks from '../Marks'
-
-const NUMERALS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII']
+import Section from '../Section'
+import Tags from '../Tags'
 
 interface Job {
   title: string
@@ -74,24 +72,23 @@ const jobs: Job[] = [
 
 export default function Experience() {
   return (
-    <section id="experience">
-      <SectionHead numeral="III" label="Experience" title="Where I've Built Things" />
-      <ol className="ledger">
-        {jobs.map((job, i) => (
-          <li key={job.company} className={`ledger-entry${job.current ? ' current' : ''}`}>
-            <div className="ledger-meta">
-              <span className="ledger-num" aria-hidden="true">{NUMERALS[i]}</span>
-              <span className="ledger-date">{job.date}</span>
+    <Section id="experience" index="03" label="Experience" title="Where I've built things">
+      <ol className="rows timeline">
+        {jobs.map((job) => (
+          <li key={job.company} className="row job">
+            <div className="job-meta">
+              <p className="job-date">{job.date}</p>
+              {job.current && <p className="job-current">Current</p>}
             </div>
-            <div className="ledger-body">
-              <h3 className="ledger-title">{job.title}</h3>
-              <p className="ledger-company">{job.company}</p>
-              <p className="ledger-desc">{job.description}</p>
-              <Marks items={job.tags} />
+            <div className="job-body">
+              <h3 className="job-title">{job.title}</h3>
+              <p className="job-company">{job.company}</p>
+              <p className="job-desc">{job.description}</p>
+              <Tags items={job.tags} />
             </div>
           </li>
         ))}
       </ol>
-    </section>
+    </Section>
   )
 }

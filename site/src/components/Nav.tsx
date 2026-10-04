@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import Sigil from './Sigil'
 
 type NavItem = { label: string } & ({ hash: string } | { to: string })
 
@@ -44,10 +43,7 @@ export default function Nav() {
 
   return (
     <nav>
-      <NavLink to="/" className="nav-logo">
-        <Sigil className="nav-sigil" />
-        <span>mikey.dev</span>
-      </NavLink>
+      <NavLink to="/" className="nav-logo">mikey.dev</NavLink>
       <button
         ref={toggleRef}
         type="button"

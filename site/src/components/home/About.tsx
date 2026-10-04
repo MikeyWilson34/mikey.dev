@@ -1,15 +1,10 @@
-import SectionHead from '../SectionHead'
+import Section from '../Section'
 
 export default function About() {
   return (
-    <section id="about" className="about">
-      <SectionHead
-        numeral="I"
-        label="About"
-        title={<>Quality is a craft,<br />not a checkbox.</>}
-      />
-      <div className="about-text">
-        <p>
+    <Section id="about" index="01" label="About" title="Quality is a craft, not a checkbox." className="about">
+      <div className="prose">
+        <p className="lead">
           QA Engineer with 6+ years of experience building scalable test automation and leading release
           coordination. Skilled in manual testing, mobile &amp; web automation, and cross-functional
           collaboration.
@@ -19,6 +14,6 @@ export default function About() {
           Seeking to deliver high-quality software through strategic testing and continuous improvement.
         </p>
       </div>
-    </section>
+    </Section>
   )
 }

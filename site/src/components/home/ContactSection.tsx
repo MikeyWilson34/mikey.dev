@@ -1,11 +1,10 @@
-import SectionHead from '../SectionHead'
+import Section from '../Section'
 
 export default function ContactSection() {
   return (
-    <section id="resume">
-      <SectionHead numeral="IV" label="Resume" title="Get In Touch" />
-      <div className="seal">
-        <div className="seal-text">
+    <Section id="resume" index="04" label="Resume" title="Get in touch">
+      <div className="callout">
+        <div className="callout-text">
           <h3>Let's work together.</h3>
           <p>
             I'm currently open to Senior QA Engineer and SDET roles. If you're building
@@ -13,14 +12,14 @@ export default function ContactSection() {
             to prove it, I'd love to talk.
           </p>
         </div>
-        <div className="seal-actions">
-          <a href="mailto:mikeawilson34@gmail.com" className="btn btn-gold">Send an Email</a>
-          <a href="/michael_wilson_resume.pdf" download className="btn btn-outline">Download Resume</a>
-          <a href="https://www.linkedin.com/in/michael-wilson-213788a7/" className="btn btn-outline" target="_blank" rel="noreferrer">
+        <div className="callout-actions">
+          <a href="mailto:mikeawilson34@gmail.com" className="btn btn-primary">Send an Email</a>
+          <a href="/michael_wilson_resume.pdf" download className="btn btn-secondary">Download Resume</a>
+          <a href="https://www.linkedin.com/in/michael-wilson-213788a7/" className="btn btn-secondary" target="_blank" rel="noreferrer">
             LinkedIn
           </a>
         </div>
       </div>
-    </section>
+    </Section>
   )
 }
