@@ -58,6 +58,14 @@ _Avoid_: API key, token, account
 The nightly copy of current-season NBA data from a public source into the API's own database.
 _Avoid_: Sync, import, scrape
 
+**Snapshot**:
+A frozen copy of NBA data saved in the repo. Pipeline Runs test against it so their results don't change from one run to the next.
+_Avoid_: Fixture, dump, seed data
+
+**Team Record**:
+A team's wins and losses in one season, worked out by the API from finished regular-season games. Postseason and unfinished games don't count.
+_Avoid_: Standing, win-loss, stats
+
 **Current Season**:
 The most recent NBA season with games played. During the offseason this is the season that just ended, and the site says so.
 _Avoid_: This season, latest season
