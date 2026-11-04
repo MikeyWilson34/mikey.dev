@@ -14,24 +14,39 @@ interface Project {
   tags: string[]
   featured?: boolean
   highlights?: Highlight[]
+  links?: { label: string; href: string }[]
 }
 
 const projects: Project[] = [
   {
-    title: 'Mobile Automation Framework',
+    title: 'Portfolio Test & Deploy Pipeline',
     featured: true,
     description:
-      'Built a Python + Appium test framework from the ground up for iOS and Android. Implements the Page Object Model pattern for maintainability and integrates into the CI pipeline to run on every mobile release candidate. The framework reduced manual regression time significantly and serves as the team\'s primary quality gate for every release.',
+      'This site is tested and deployed by its own pipeline. Every pull request runs a Playwright suite (page loads, navigation, axe accessibility checks across Chromium, WebKit and mobile) against a Netlify preview deploy, and main only changes through a pull request that passes. Merging deploys to production through GitHub Actions, followed by a smoke test against the live site.',
+    tags: [
+      'Playwright', 'TypeScript',
+      'GitHub Actions', 'Netlify',
+      'CI/CD', 'Accessibility',
+    ],
+    highlights: [
+      { label: 'Type', value: 'CI/CD + End-to-End Testing' },
+      { label: 'Stack', value: 'Playwright, TypeScript, GitHub Actions' },
+      { label: 'Gate', value: 'Tests must pass before merge and deploy' },
+      { label: 'Browsers', value: 'Chromium, WebKit, mobile' },
+    ],
+    links: [
+      { label: 'View the repo', href: 'https://github.com/MikeyWilson34/mikey.dev' },
+      { label: 'See the test runs', href: 'https://github.com/MikeyWilson34/mikey.dev/actions' },
+    ],
+  },
+  {
+    title: 'Mobile Automation Framework',
+    description:
+      'Built a Python + Appium test framework from scratch for iOS and Android, using the Page Object Model and running in CI on every release candidate. It cut manual regression from 3 days to under 1 and is the team\'s main quality gate for each release.',
     tags: [
       'Python', 'Appium',
       'POM Pattern', 'CI/CD',
       'Android',
-    ],
-    highlights: [
-      { label: 'Type', value: 'Mobile Test Automation' },
-      { label: 'Stack', value: 'Python, Appium, pytest' },
-      { label: 'Pattern', value: 'Page Object Model' },
-      { label: 'Impact', value: 'Primary QA gate for every mobile release cycle' },
     ],
   },
   {
@@ -55,7 +70,7 @@ const projects: Project[] = [
   {
     title: 'Mobile Release Coordination System',
     description:
-      'Designed and lead a repeatable monthly release process for mobile apps — from test plan creation and sign-off coordination to deployment checklists — reducing release-day issues significantly.',
+      'Designed and led a repeatable monthly release process for the mobile apps, from test plans and sign-off coordination to deployment checklists.',
     tags: [
       'Process Design', 'Release Management',
       'Mobile QA', 'Leadership',
@@ -75,6 +90,21 @@ export default function ProjectsGrid() {
           <h2 className="project-title">{featured.title}</h2>
           <p className="project-desc">{featured.description}</p>
           <Tags items={featured.tags} />
+          {featured.links && (
+            <div className="actions featured-links">
+              {featured.links.map((link, i) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className={i === 0 ? 'btn btn-primary' : 'btn btn-secondary'}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          )}
         </div>
         <dl className="spec">
           {featured.highlights!.map((h) => (

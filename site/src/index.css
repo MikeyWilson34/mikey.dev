@@ -535,6 +535,8 @@ nav {
   color: var(--text-2);
 }
 
+.featured-links { margin-top: 1.5rem; }
+
 .spec div {
   padding: 0.85rem 0;
   border-bottom: 1px solid var(--rule);
