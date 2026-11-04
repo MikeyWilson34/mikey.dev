@@ -19,7 +19,7 @@ export default defineConfig({
     : [['list'], ['html', { open: 'never' }]],
   use: {
     baseURL,
-    // FadeIn is decorative; tests never assert on it.
+    // Animations are decorative; tests never assert on them.
     reducedMotion: 'reduce',
     trace: 'on-first-retry',
   },

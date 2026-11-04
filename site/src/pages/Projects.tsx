@@ -8,9 +8,11 @@ export default function Projects() {
   return (
     <>
       <Nav />
-      <ProjectsHeader />
-      <ProjectsGrid />
-      <ProjectsCTA />
+      <main id="main">
+        <ProjectsHeader />
+        <ProjectsGrid />
+        <ProjectsCTA />
+      </main>
       <Footer />
     </>
   )

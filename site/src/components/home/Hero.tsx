@@ -1,39 +1,43 @@
+import { Link } from 'react-router-dom'
+
+const stats = [
+  { num: '6+', label: 'Years QA experience' },
+  { num: '400+', label: 'Test cases written' },
+  { num: '3', label: 'Automation stacks' },
+]
+
 export default function Hero() {
   return (
-    <div className="hero">
-      <div>
-        <div className="hero-badge">Open to opportunities</div>
-        <h1>
-          Michael Wilson <br>
-          </br>
-          <em>
-          Senior QA Engineer
-          </em>
-        </h1>
-        <p className="hero-sub">
-          6+ years building scalable test automation and leading release coordination.
-          Expert in Python-based frameworks, mobile QA, and Agile development —
-          delivering high-quality software through strategic testing.
-        </p>
-        <div className="hero-actions">
-          <a href="#experience" className="btn btn-primary">View My Work</a>
-          <a href="/michael_wilson_resume.pdf" download className="btn btn-resume">Download Resume</a>
+    <header className="hero">
+      <p className="eyebrow">
+        <span className="status-dot" aria-hidden="true" />
+        Open to opportunities
+      </p>
+      <h1>
+        <span className="hero-name">Michael Wilson</span>{' '}
+        <span className="hero-role">SDET / QA Engineer</span>
+      </h1>
+      <div className="hero-grid">
+        <div>
+          <p className="hero-sub">
+            I build test automation for mobile and web apps and coordinate the releases that
+            ship them. Python, Appium and Robot Framework day to day; Playwright and GitHub
+            Actions on this site.
+          </p>
+          <div className="actions">
+            <Link to="/projects" className="btn btn-primary">View My Work</Link>
+            <a href="/michael_wilson_resume.pdf" download className="btn btn-secondary">Download Resume</a>
+          </div>
         </div>
+        <dl className="hero-stats">
+          {stats.map((stat) => (
+            <div key={stat.label}>
+              <dt>{stat.label}</dt>
+              <dd>{stat.num}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
-      <div className="hero-stats">
-        <div className="stat-card">
-          <div className="stat-num">6+</div>
-          <div className="stat-label">Years QA Exp</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-num">3</div>
-          <div className="stat-label">Automation Stacks</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-num">∞</div>
-          <div className="stat-label">Bugs Caught</div>
-        </div>
-      </div>
-    </div>
+    </header>
   )
 }
