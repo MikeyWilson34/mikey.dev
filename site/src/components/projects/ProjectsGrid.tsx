@@ -42,7 +42,7 @@ const projects: Project[] = [
   {
     title: 'Mobile Automation Framework',
     description:
-      'Built a Python + Appium framework from scratch for iOS and Android that runs in CI on every release candidate. It cut manual regression from 3 days to under 1.',
+      'Built a Python + Appium test framework from scratch for iOS and Android, using the Page Object Model and running in CI on every release candidate. It cut manual regression from 3 days to under 1 and is the team\'s main quality gate for each release.',
     tags: [
       'Python', 'Appium',
       'POM Pattern', 'CI/CD',
