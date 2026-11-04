@@ -4,6 +4,7 @@ Personal website to show my skillset and interests
 ## Layout
 
 - `site/` — the website (Vite + React + TypeScript)
+- `api/` — the NBA API (Python + FastAPI); see [api/README.md](api/README.md)
 - `CONTEXT.md` — project glossary
 - `docs/adr/` — decision records
 
