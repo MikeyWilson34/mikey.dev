@@ -62,7 +62,7 @@ test.describe('Interests page', () => {
   // Photos are never cropped: each shows whole inside a square frame, and the
   // space around a non-square one is the page colour so it blends in.
   for (const { slug, title } of INTERESTS) {
-    test(`the ${title} photos load and show whole in a square frame`, async ({ page, browserName }) => {
+    test(`the ${title} photos load and show whole in a square frame`, async ({ page }) => {
       test.skip(imageFiles(slug).length === 0, `no photos in interests/${slug} yet`)
       await page.goto('/interests')
       const section = page.locator(`section#${slug}`)
@@ -71,14 +71,10 @@ test.describe('Interests page', () => {
       await expect(section.getByRole('img').first()).toBeVisible()
 
       // Every photo rendered so far (the current one and the next) must load.
-      // Playwright's WebKit build on Windows can't decode AVIF at all, though
-      // Safari 16+ can, so AVIF is only checked there for its styling.
       const images = section.locator('.gallery-frame img')
       for (const image of await images.all()) {
         const src = (await image.getAttribute('src')) ?? ''
-        if (!(browserName === 'webkit' && process.platform === 'win32' && /\.avif$/i.test(src))) {
-          await expect.poll(() => image.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth), src).toBeGreaterThan(0)
-        }
+        await expect.poll(() => image.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth), src).toBeGreaterThan(0)
         await expect(image).toHaveCSS('object-fit', 'contain')
       }
 
