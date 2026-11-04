@@ -46,10 +46,13 @@ names that say what's in the picture rather than `IMG_2034.jpg`.
 
 ## What size works best
 
-- **Square, about 1200×1200px.** The frame is a square crop (1:1) and
-  crops anything else to fill it, so a square image shows in full, a
-  landscape one loses its sides and a tall one loses its top and bottom.
-  Crop to square yourself if you want to choose what stays in view.
+- **Any shape, up to about 1200px on the longest side.** The frame is a
+  square (1:1, up to 560px wide), and every picture shows in full inside
+  it, never cropped. A square one fills the frame; a landscape one sits in
+  the middle with empty space above and below, and a tall one with empty
+  space at the sides. That space is the page's background colour, so it
+  blends in, in light and dark mode. Anything much smaller than about
+  560px on its longest side may look soft.
 - **Under ~500KB** each. Exporting as `.webp` or `.jpg` at around 80% quality
   usually gets there.
 - Photos show with **no caption**. The filename only becomes the alt text
