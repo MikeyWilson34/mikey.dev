@@ -581,20 +581,24 @@ nav {
   max-width: 35rem; /* 560px */
 }
 
+/* The frame is the page colour, so the space around a non-square photo
+   blends into the page in both themes */
 .gallery-frame {
   position: relative;
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  background: var(--surface);
+  background: var(--bg);
   border-radius: var(--radius);
 }
 
+/* Each photo shows in full, never cropped: a landscape one sits centred with
+   space above and below, a tall one with space at the sides */
 .gallery-frame > img,
 .gallery-slide img {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 /* Slides stack in the frame; only the active one is opaque */
@@ -615,6 +619,7 @@ nav {
 /* Empty folder: a short tinted band rather than a big blank frame */
 .gallery-empty {
   aspect-ratio: auto;
+  background: var(--surface);
   display: flex;
   align-items: center;
   min-height: 6.5rem;
