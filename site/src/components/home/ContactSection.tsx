@@ -18,6 +18,9 @@ export default function ContactSection() {
           <a href="https://www.linkedin.com/in/michael-wilson-213788a7/" className="btn btn-secondary" target="_blank" rel="noreferrer">
             LinkedIn
           </a>
+          <a href="https://github.com/MikeyWilson34" className="btn btn-secondary" target="_blank" rel="noreferrer">
+            GitHub
+          </a>
         </div>
       </div>
     </Section>

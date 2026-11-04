@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 
 const stats = [
   { num: '6+', label: 'Years QA experience' },
+  { num: '400+', label: 'Test cases written' },
   { num: '3', label: 'Automation stacks' },
 ]
 
@@ -19,9 +20,9 @@ export default function Hero() {
       <div className="hero-grid">
         <div>
           <p className="hero-sub">
-            6+ years building scalable test automation and leading release coordination.
-            Expert in Python-based frameworks, mobile QA, and Agile development —
-            delivering high-quality software through strategic testing.
+            I build test automation for mobile and web apps and coordinate the releases that
+            ship them. Python, Appium and Robot Framework day to day; Playwright and GitHub
+            Actions on this site.
           </p>
           <div className="actions">
             <Link to="/projects" className="btn btn-primary">View My Work</Link>
