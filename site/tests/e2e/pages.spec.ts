@@ -91,3 +91,31 @@ test('following a nav link from far down a page opens the new page at the top', 
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(/Where I've built things/)
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0)
 })
+
+test('the hero introduces the SDET / QA Engineer title', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.locator('.hero-role')).toHaveText('SDET / QA Engineer')
+})
+
+test('the Contact section links to GitHub in a new tab', async ({ page }) => {
+  await page.goto('/')
+  const github = page.locator('#contact').getByRole('link', { name: 'GitHub' })
+
+  await expect(github).toHaveAttribute('href', 'https://github.com/MikeyWilson34')
+  await expect(github).toHaveAttribute('target', '_blank')
+})
+
+test('the featured project links to its repo and its test runs', async ({ page }) => {
+  await page.goto('/projects')
+  const featured = page.locator('.featured')
+
+  await expect(featured.getByRole('heading', { level: 2 })).toHaveText('Portfolio Test & Deploy Pipeline')
+  await expect(featured.getByRole('link', { name: 'View the repo' })).toHaveAttribute(
+    'href',
+    'https://github.com/MikeyWilson34/mikey.dev',
+  )
+  await expect(featured.getByRole('link', { name: 'See the test runs' })).toHaveAttribute(
+    'href',
+    'https://github.com/MikeyWilson34/mikey.dev/actions',
+  )
+})
