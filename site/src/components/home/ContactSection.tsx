@@ -7,7 +7,7 @@ export default function ContactSection() {
         <div className="callout-text">
           <h3>Let's work together.</h3>
           <p>
-            I'm currently open to Senior QA Engineer and SDET roles. If you're building
+            I'm currently open to SDET and QA Engineer roles. If you're building
             something that needs a quality-obsessed engineer who can also write the automation
             to prove it, I'd love to talk.
           </p>

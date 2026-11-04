@@ -14,7 +14,7 @@ export default function Hero() {
       </p>
       <h1>
         <span className="hero-name">Michael Wilson</span>{' '}
-        <span className="hero-role">Senior QA Engineer</span>
+        <span className="hero-role">SDET / QA Engineer</span>
       </h1>
       <div className="hero-grid">
         <div>
