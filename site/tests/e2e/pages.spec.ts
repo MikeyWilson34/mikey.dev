@@ -54,6 +54,11 @@ test('Home keeps its sections short: About, Skills and Contact, numbered in orde
   await expect(page.locator('.job')).toHaveCount(0)
 })
 
+test('the About section heading on Home reads "About me"', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.locator('#about').getByRole('heading', { level: 2 })).toHaveText('About me')
+})
+
 test('the Experience page lists the full job history, current role first', async ({ page }) => {
   await page.goto('/experience')
   const jobs = page.getByRole('region', { name: 'Job history' }).getByRole('listitem').filter({ has: page.getByRole('heading', { level: 3 }) })

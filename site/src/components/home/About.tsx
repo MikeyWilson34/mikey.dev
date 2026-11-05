@@ -2,12 +2,12 @@ import Section from '../Section'
 
 export default function About() {
   return (
-    <Section id="about" index="01" label="About" title="Quality is a craft, not a checkbox." className="about">
+    <Section id="about" index="01" label="About" title="About me" className="about">
       <div className="prose">
         <p className="lead">
-          I've tested VR experiences, console games, and mobile apps, and today I run the monthly mobile
-          release process at Lightspeed DMS. I care about automation that catches real bugs and releases
-          that go out without surprises.
+          I'm Michael, but everyone calls me Mikey. I'm an SDET and QA engineer in Utah, and right now I work on
+          mobile test automation. Along the way I've tested VR experiences and built browser automation with
+          Python and Selenium. I like learning new technologies and working with others.
         </p>
       </div>
     </Section>
