@@ -5,3 +5,9 @@ dist/
 test-results/
 playwright-report/
 blob-report/
+
+# Python (api/)
+.venv/
+__pycache__/
+.pytest_cache/
+*.egg-info/

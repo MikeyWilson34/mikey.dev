@@ -1,7 +1,12 @@
 # Pipeline Run for pull requests.
 # Builds the site, publishes a Preview Deploy on Netlify, then runs the
 # Playwright suite against it. The `e2e` job is the Deploy Gate check.
+# The `api` job runs the NBA API's pytest suite.
 # See docs/adr/0002-github-actions-deploys.md.
+#
+# The workflow runs on every PR so the required checks always report. The
+# `changes` job decides which jobs are needed: a job skipped by its `if`
+# counts as passing, so an API-only PR doesn't wait on a site build.
 
 name: PR
 
@@ -24,8 +29,34 @@ env:
   NETLIFY_CLI: netlify-cli@27
 
 jobs:
+  changes:
+    name: changes
+    runs-on: ubuntu-latest
+    outputs:
+      site: ${{ steps.filter.outputs.site }}
+      api: ${{ steps.filter.outputs.api }}
+    steps:
+      # Depth 2 so we can compare the PR's merge commit with main (its parent).
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Decide which parts of the repo changed
+        id: filter
+        run: |
+          changed=$(git diff --name-only HEAD^1 HEAD)
+          echo "Changed files:"; echo "$changed"
+          # Site jobs run unless every changed file is inside api/.
+          if echo "$changed" | grep -qv '^api/'; then site=true; else site=false; fi
+          # API tests run when api/ or this workflow changes.
+          if echo "$changed" | grep -qE '^(api/|\.github/workflows/pr\.yml$)'; then api=true; else api=false; fi
+          echo "site=$site" | tee -a "$GITHUB_OUTPUT"
+          echo "api=$api" | tee -a "$GITHUB_OUTPUT"
+
   build:
     name: build
+    needs: changes
+    if: needs.changes.outputs.site == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -132,11 +163,13 @@ jobs:
 
   e2e:
     name: e2e
-    needs: [build, preview-deploy]
+    needs: [changes, build, preview-deploy]
     runs-on: ubuntu-latest
     # Run even when preview-deploy was skipped (fork PRs). A skipped required
     # check counts as passing, so this job must run and fail loudly instead.
-    if: ${{ !cancelled() }}
+    # The only time it may skip is when `changes` says the site is untouched;
+    # if `changes` itself failed, the output is empty and this job still runs.
+    if: ${{ !cancelled() && needs.changes.outputs.site != 'false' }}
     defaults:
       run:
         working-directory: site
@@ -189,3 +222,24 @@ jobs:
           path: site/test-results
           if-no-files-found: ignore
           retention-days: 14
+
+  api:
+    name: api
+    needs: changes
+    if: needs.changes.outputs.api == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: api
+    steps:
+      - uses: actions/checkout@v4
+
+      # The lowest version pyproject.toml supports.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: api/pyproject.toml
+
+      - run: pip install -e ".[dev]"
+      - run: pytest -v
